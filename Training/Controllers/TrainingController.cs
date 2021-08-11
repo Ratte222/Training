@@ -23,12 +23,5 @@ namespace Training.Controllers
             _mapper = mapper;
             _productService = productService;
         }
-
-        [HttpPost]
-        public IActionResult CreateProduct(CreateProductDTO createProductDTO)
-        {
-            _productService.Create(_mapper.Map<CreateProductDTO, Product>(createProductDTO));
-            return Ok("Product created successfully");
-        }
     }
 }

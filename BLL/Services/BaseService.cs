@@ -4,7 +4,8 @@ using DAL.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -24,10 +25,6 @@ namespace BLL.Services
         //        $"({})")
         //}
 
-        //public virtual T Get(long id)
-        //{
-        //    string temp = nameof(T);
-        //    _context.Set<T>().FromSqlInterpolated($"SELECT * FROM Products WHERE 'Id' = {id}");
-        //}
+        
     }
 }

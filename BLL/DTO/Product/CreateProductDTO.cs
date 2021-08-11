@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace BLL.DTO
+namespace BLL.DTO.Product
 {
     public class CreateProductDTO
     {
@@ -11,6 +11,7 @@ namespace BLL.DTO
         public string Name { get; set; }
         public string Description { get; set; }
         [Required]
+        [Range(0, Double.MaxValue)]
         public int Cost { get; set; }
     }
 }

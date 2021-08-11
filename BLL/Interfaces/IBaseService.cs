@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
@@ -11,7 +12,7 @@ namespace BLL.Interfaces
         //IEnumerable<T> GetAll_Enumerable();
         //IQueryable<T> GetAll_Queryable();
         //IQueryable<T> GetAll();
-        //T Get(long id);
+        //Task<T> Get(long id);
         //void Create(T item);
         //void CreateRange(IEnumerable<T> items);
         //void Update(T item);

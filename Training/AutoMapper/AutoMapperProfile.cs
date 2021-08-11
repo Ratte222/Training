@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.DTO;
+using BLL.DTO.Product;
 using DAL.Model;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace Training.AutoMapper
         public AutoMapperProfile()
         {
             CreateMap<CreateProductDTO, Product>();
+            CreateMap<Product, ProductDTO>();
+            CreateMap<ProductDTO, Product>();
         }
     }
 }
