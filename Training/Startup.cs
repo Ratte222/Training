@@ -2,6 +2,7 @@ using BLL.Helpers;
 using BLL.Interfaces;
 using BLL.Services;
 using DAL.EF;
+using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +28,12 @@ namespace Training
     {
         public Startup(IConfiguration configuration)
         {
+            //var builder = new ConfigurationBuilder()
+            //                 .AddEnvironmentVariables()
+            //                .AddConfiguration(configuration);
+            //// create config
+            //Configuration = builder.Build();
+
             Configuration = configuration;
         }
 
@@ -45,7 +52,10 @@ namespace Training
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
-
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(
+                Directory.GetCurrentDirectory(), appSettings.DirectoryForFireBaseConfig,
+                appSettings.FireBase["FileName"]));
             services.AddScoped<IProductService, ProductService>();
 
             #region Swagger
@@ -85,5 +95,6 @@ namespace Training
                 endpoints.MapControllers();
             });
         }
+                
     }
 }

@@ -16,6 +16,7 @@ namespace Training.AutoMapper
             CreateMap<CreateProductDTO, Product>();
             CreateMap<Product, ProductDTO>();
             CreateMap<ProductDTO, Product>();
+            CreateMap<Product, ProductFbDTO>();
         }
     }
 }

@@ -8,5 +8,7 @@ namespace BLL.Helpers
     {
         public string DirectoryForSerializeDeserialize { get; set; }
         public string FileName { get; set; }
+        public string DirectoryForFireBaseConfig { get; set; }
+        public Dictionary<string, string> FireBase { get; set; }
     }
 }
