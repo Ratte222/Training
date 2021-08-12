@@ -1,3 +1,4 @@
+using BLL.Helpers;
 using BLL.Interfaces;
 using BLL.Services;
 using DAL.EF;
@@ -41,6 +42,9 @@ namespace Training
                 UseMySql(connection, new MySqlServerVersion(new Version(8, 0, 26))), ServiceLifetime.Transient);
 
             services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
 
             services.AddScoped<IProductService, ProductService>();
 

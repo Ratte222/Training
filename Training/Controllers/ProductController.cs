@@ -54,17 +54,14 @@ namespace Training.Controllers
         }
 
         [HttpGet("GetProduct")]
-        [ProducesResponseType(typeof(PageResponse<ProductDTO>), 200)]
+        [ProducesResponseType(typeof(ProductDTO), 200)]
         [ProducesResponseType(typeof(string), 500)]
         public IActionResult GetProduct(long productId)
         {
-            PageResponse<ProductDTO> pageResponse = new PageResponse<ProductDTO>();
-
             Product product = _productService.Get(productId);
             if (product == null)
                 return NotFound();
-            pageResponse.Item = _mapper.Map<Product, ProductDTO>(product);
-            return Ok(pageResponse);
+            return Ok(product);
         }
 
         [HttpPut("EditProduct")]

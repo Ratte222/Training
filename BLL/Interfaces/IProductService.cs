@@ -19,5 +19,8 @@ namespace BLL.Interfaces
         void Update(Product item);
         void Delete(long id);
 
+
+        void Serialize(ProductDTO product);
+        List<ProductDTO> Deserialize();
     }
 }
