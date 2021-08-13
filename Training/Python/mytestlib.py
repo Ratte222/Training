@@ -19,7 +19,6 @@ def get_int_list():
 def write_int(i: int):
     stdout.write(i.to_bytes(4, byteorder='little'))
 
-
 nums = get_int_list()
 
 result = sum(nums)

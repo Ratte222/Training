@@ -6,6 +6,6 @@ namespace BLL.Interfaces
 {
     public interface IPythonLibService
     {
-        int CalcArraySum(int[] arr);
+        int CalcArraySum(int[] arr, bool useIronPython = true);
     }
 }

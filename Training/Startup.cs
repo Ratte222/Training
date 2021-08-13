@@ -17,6 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Reflection;
 using System.Threading.Tasks;
 using Training.AutoMapper;
@@ -50,15 +52,38 @@ namespace Training
 
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
+            #region Config
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
             var appSettings = appSettingsSection.Get<AppSettings>();
+            var mailAddresConfigSection = Configuration.GetSection("SmtpConfig");
+            services.Configure<SmtpConfig>(mailAddresConfigSection);
+            var smtpConfig = mailAddresConfigSection.Get<SmtpConfig>();
+            #endregion
+
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(
                 Directory.GetCurrentDirectory(), appSettings.DirectoryForFireBaseConfig,
                 appSettings.FireBaseConfig["FileName"]));
 
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IPythonLibService, PythonLibService>();
+
+            #region FluentEmail_Smtp
+            SmtpClient smtp = new SmtpClient
+            {
+                //The address of the SMTP server (I'll take mailbox 126 as an example, which can be set according to the specific mailbox you use)
+                Host = smtpConfig.SmtpHost,
+                Port = smtpConfig.SmtpPort,
+                UseDefaultCredentials = true,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                //Enter the user name and password of your sending SMTP server here
+                Credentials = new NetworkCredential(smtpConfig.Email, smtpConfig.Password)
+            };
+            services
+                .AddFluentEmail(smtpConfig.Email)
+                .AddSmtpSender(smtp); //configure host and port
+            #endregion
 
             #region Swagger
             services.AddSwaggerGen(c =>

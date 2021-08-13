@@ -5,6 +5,7 @@ using BLL.Filters;
 using BLL.Helpers;
 using BLL.Interfaces;
 using DAL.Model;
+using FluentEmail.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,11 +21,13 @@ namespace Training.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IProductService _productService;
+        private readonly IFluentEmail _singleEmail;
 
-        public TrainingController(IMapper mapper, IProductService productService)
+        public TrainingController(IMapper mapper, IProductService productService, IFluentEmail singleEmail)
         {
             _mapper = mapper;
             _productService = productService;
+            _singleEmail = singleEmail;
         }
 
         [HttpGet("Serialize")]
@@ -76,6 +79,17 @@ namespace Training.Controllers
             return Ok(pageResponse);
         }
 
-
+        [HttpGet("SendEmail")]
+        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(typeof(string), 500)]
+        public async Task<IActionResult> SendEmail()
+        {
+            await _singleEmail
+                .To(@"email")
+                .Subject("Email example")
+                .Body("Email body")
+                .SendAsync(); //this will use the SmtpSender
+            return Ok();
+        }
     }
 }
