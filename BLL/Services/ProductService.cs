@@ -164,7 +164,7 @@ namespace BLL.Services
         //https://www.youtube.com/watch?v=lfEgW53RDkc&list=PLrb70iTVZjZPEbhCh85VQIpRbQos2Qx3i&index=6
         public async Task InsertNewProductToFireBaseAsync(List<ProductFbDTO> products)
         {
-            FirestoreDb firestoreDb = FirestoreDb.Create(_appSettings.FireBase["ProjectName"]);
+            FirestoreDb firestoreDb = FirestoreDb.Create(_appSettings.FireBaseConfig["ProjectName"]);
             //DocumentReference doc = firestoreDb.Collection("Add_Document_With_CustomID").Document("People");
             //Dictionary<string, object> data1 = new Dictionary<string, object>()
             //{
@@ -218,7 +218,7 @@ namespace BLL.Services
         public async Task<List<ProductFbDTO>> GetDataFromFireBase(
             PageResponse<ProductFbDTO> pageResponse, ProductFilter productFilter)
         {
-            FirestoreDb firestoreDb = FirestoreDb.Create(_appSettings.FireBase["ProjectName"]);
+            FirestoreDb firestoreDb = FirestoreDb.Create(_appSettings.FireBaseConfig["ProjectName"]);
             Query query = null;
             if (String.IsNullOrEmpty(productFilter.FieldOrderBy) && productFilter.OrderByDescending)
             {
@@ -252,5 +252,7 @@ namespace BLL.Services
             //and did not want to make another request in order to take the total number of elements 
             return products;
         }
+
+        
     }
 }

@@ -55,8 +55,10 @@ namespace Training
             var appSettings = appSettingsSection.Get<AppSettings>();
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(
                 Directory.GetCurrentDirectory(), appSettings.DirectoryForFireBaseConfig,
-                appSettings.FireBase["FileName"]));
+                appSettings.FireBaseConfig["FileName"]));
+
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IPythonLibService, PythonLibService>();
 
             #region Swagger
             services.AddSwaggerGen(c =>
