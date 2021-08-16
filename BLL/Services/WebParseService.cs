@@ -36,7 +36,13 @@ namespace BLL.Services
             
             List<int> idRemoveProxy = new List<int>();
             string html = String.Empty;
-            for(int i = 0;  i < proxyList.Count; i++)
+            //using (StreamReader sr = new StreamReader(Path.Combine(Directory.GetCurrentDirectory(),
+            //    "Temp", "Rozetka.html")))
+            //{
+            //    html = sr.ReadToEnd();
+            //}
+            //return ParserWorcer(html);//so faster
+            for (int i = 0;  i < proxyList.Count; i++)
             {
                 if (!String.IsNullOrEmpty(html))
                     continue;
@@ -123,22 +129,45 @@ namespace BLL.Services
             //{
             //    list.Add(item.TextContent);
             //}
-            
-            var descriptions = document.QuerySelectorAll("div")
-                .Where(item => item.ClassName != null && item.ClassName
-                .Contains("goods-tile ng-star-inserted")).ToList();
-            var names = document.QuerySelectorAll("a")
-                .Where(item => item.ClassName != null && item.ClassName
-                .Contains("goods-tile__heading ng-star-inserted")).ToList();
+
+            //var test = document.QuerySelectorAll("ul")
+            //    .Where(item => item.ClassName != null && item.ClassName
+            //    .Contains("catalog-grid ng-star-inserted")).ToList();
+
+            //var descriptions = document.QuerySelectorAll("div")
+            //    .Where(item => item.ClassName != null && item.ClassName
+            //    .Contains("goods-tile ng-star-inserted")).ToList();
+            //var names = document.QuerySelectorAll("a")
+            //    .Where(item => item.ClassName != null && item.ClassName
+            //    .Contains("goods-tile__heading ng-star-inserted")).ToList();
             //var costs = document.QuerySelectorAll("div")
             //    .Where(item => item.ClassName != null && item.ClassName
             //    .Contains("goods-tile__price")).ToList();
-            for(int i = 0; i < descriptions.Count; i++)
+            //for(int i = 0; i < descriptions.Count; i++)
+            //{
+            //    ProductParse productParse= new ProductParse();
+            //    productParse.Name = names[i].TextContent;
+            //    //productParse.Cost = costs[i].TextContent;
+            //    productParse.NoParseDescription = descriptions[i].Children[1].TextContent;
+            //    list.Add(productParse);
+            //}
+
+            var notebooks = document.QuerySelectorAll("div")
+                .Where(item => item.ClassName != null && item.ClassName
+                .Contains("goods-tile ng-star-inserted")).ToList();
+            foreach(var notebook in notebooks)
             {
                 ProductParse productParse= new ProductParse();
-                productParse.Name = names[i].TextContent;
-                //productParse.Cost = costs[i].TextContent;
-                productParse.NoParseDescription = descriptions[i].Children[1].TextContent;
+                productParse.NoParseDescription = notebook.Children[1].TextContent;
+                productParse.Name = notebook.Children[1].QuerySelectorAll("span")
+                    .Where(item => item.ClassName != null && item.ClassName
+                    .Contains("goods-tile__title")).FirstOrDefault().TextContent;
+                productParse.Cost = notebook.Children[1].QuerySelectorAll("span")
+                    .Where(item => item.ClassName != null && item.ClassName
+                    .Contains("goods-tile__price-value")).FirstOrDefault().TextContent;
+                productParse.Currency = notebook.Children[1].QuerySelectorAll("span")
+                    .Where(item => item.ClassName != null && item.ClassName
+                    .Contains("goods-tile__price-currency")).FirstOrDefault().TextContent;
                 list.Add(productParse);
             }
             return list;

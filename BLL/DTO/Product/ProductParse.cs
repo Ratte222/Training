@@ -8,15 +8,16 @@ namespace BLL.DTO.Product
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public string Description { 
-            get 
+        public string Description {
+            get
             {
                 int start = NoParseDescription.IndexOf("Экран");
                 return NoParseDescription.Substring(start);
-            } }
+            }
+        }
         public string NoParseDescription { get; set; }
         public string Cost { get; set; }
-
+        public string Currency {  get; set; }
 
         //public ProductParse(string content)
         //{
