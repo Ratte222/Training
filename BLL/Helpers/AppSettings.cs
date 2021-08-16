@@ -11,5 +11,6 @@ namespace BLL.Helpers
         public string DirectoryForFireBaseConfig { get; set; }
         public Dictionary<string, string> FireBaseConfig { get; set; }
         public Dictionary<string, string> ExternLibConfig {  get; set;}
+        public string ProxyListFileName {  get; set; }
     }
 }

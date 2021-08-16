@@ -67,6 +67,7 @@ namespace Training
 
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IPythonLibService, PythonLibService>();
+            services.AddScoped<IWebParseService, WebParseService>();
 
             #region FluentEmail_Smtp
             SmtpClient smtp = new SmtpClient

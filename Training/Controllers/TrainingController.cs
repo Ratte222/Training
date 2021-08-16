@@ -22,12 +22,15 @@ namespace Training.Controllers
         private readonly IMapper _mapper;
         private readonly IProductService _productService;
         private readonly IFluentEmail _singleEmail;
+        private readonly IWebParseService _webParseService;
 
-        public TrainingController(IMapper mapper, IProductService productService, IFluentEmail singleEmail)
+        public TrainingController(IMapper mapper, IProductService productService, IFluentEmail singleEmail,
+            IWebParseService webParseService)
         {
             _mapper = mapper;
             _productService = productService;
             _singleEmail = singleEmail;
+            _webParseService = webParseService;
         }
 
         [HttpGet("Serialize")]
@@ -90,6 +93,14 @@ namespace Training.Controllers
                 .Body("Email body")
                 .SendAsync(); //this will use the SmtpSender
             return Ok();
+        }
+
+        [HttpGet("ParseWebSite")]
+        [ProducesResponseType(typeof(List<ProductParse>), 200)]
+        [ProducesResponseType(typeof(string), 500)]
+        public IActionResult ParseWebSite()
+        {            
+            return Ok(_webParseService.GetProduct());
         }
     }
 }
