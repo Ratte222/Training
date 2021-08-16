@@ -56,9 +56,11 @@ namespace Training
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
             var appSettings = appSettingsSection.Get<AppSettings>();
-            var mailAddresConfigSection = Configuration.GetSection("SmtpConfig");
-            services.Configure<SmtpConfig>(mailAddresConfigSection);
-            var smtpConfig = mailAddresConfigSection.Get<SmtpConfig>();
+            var mailAddresConfigSection = Configuration.GetSection("EmailConfiguration");
+            //services.Configure<SmtpConfig>(mailAddresConfigSection);
+            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>());
+            var smtpConfig = mailAddresConfigSection.Get<EmailConfiguration>();
             #endregion
 
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(
@@ -68,6 +70,7 @@ namespace Training
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IPythonLibService, PythonLibService>();
             services.AddScoped<IWebParseService, WebParseService>();
+            services.AddScoped<IComputerVision, ComputerVision>();
 
             #region FluentEmail_Smtp
             SmtpClient smtp = new SmtpClient
@@ -79,10 +82,10 @@ namespace Training
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 //Enter the user name and password of your sending SMTP server here
-                Credentials = new NetworkCredential(smtpConfig.Email, smtpConfig.Password)
+                Credentials = new NetworkCredential(smtpConfig.SmtpEmail, smtpConfig.SmtpPassword)
             };
             services
-                .AddFluentEmail(smtpConfig.Email)
+                .AddFluentEmail(smtpConfig.SmtpEmail)
                 .AddSmtpSender(smtp); //configure host and port
             #endregion
 
