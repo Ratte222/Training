@@ -18,7 +18,7 @@ namespace BLL.Services
 
             //Load model and predict output
             var result = CatVsDogClassifier.Predict(sampleData);
-            return result.Prediction + "on the photo";
+            return result.Prediction + " on the photo";
         }
     }
 }

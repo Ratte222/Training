@@ -17,6 +17,7 @@
 mono_crash.*
 
 [Tt]emp
+*.zip
 
 # Build results
 [Dd]ebug/
