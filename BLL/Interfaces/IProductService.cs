@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IProductService : IBaseService<Product>
+    public interface IProductService
     {
         IQueryable<Product> GetAll();
         Product Get(long id);

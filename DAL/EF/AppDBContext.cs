@@ -8,7 +8,8 @@ namespace DAL.EF
 {
     public class AppDBContext : DbContext
     {
-        DbSet<Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<OrderLine> OrderLines {  get; set; }
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
 
@@ -18,6 +19,10 @@ namespace DAL.EF
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Product>().HasKey(i => i.Id);
+            modelBuilder.Entity<OrderLine>(m =>
+            {
+                m.HasKey(i => i.Id);
+            });
         }
     }
 }

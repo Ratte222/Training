@@ -17,14 +17,55 @@ namespace BLL.Services
             _context = appDBContext;
         }
 
-        //public virtual void Create(T item)
-        //{
-        //    //I'll do it later through reflection 
-        //    string temp = nameof(T);
-        //    _context.Database.ExecuteSqlInterpolated($"INSERT INTO {temp}(Name, Descriprion, Cost) VALUES" +
-        //        $"({})")
-        //}
+        public virtual IQueryable<T> GetAll_Queryable()
+        {
+            return _context.Set<T>().AsNoTracking();
+        }
 
-        
+        public virtual IQueryable<T> GetAll()
+        {
+            return _context.Set<T>().AsNoTracking();
+        }
+
+        public virtual IEnumerable<T> GetAll_Enumerable()
+        {
+            return _context.Set<T>().AsNoTracking().AsEnumerable();
+        }
+
+        public virtual T Get(long id)
+        {
+            return _context.Set<T>().Find(id);
+        }
+
+        public virtual async Task<T> GetAsync(long id)
+        {
+            return await _context.Set<T>().FindAsync(id);
+        }
+
+        public virtual void Create(T model)
+        {
+            _context.Set<T>().Add(model);
+            _context.SaveChanges();
+        }
+
+        public virtual void CreateRange(IEnumerable<T> items)
+        {
+            _context.Set<T>().AddRange(items);
+            _context.SaveChanges();
+        }
+
+        public virtual void Update(T item)
+        {
+            _context.Set<T>().Update(item);
+            _context.SaveChanges();
+        }
+
+        public virtual void Delete(T item)
+        {
+            _context.Set<T>().Remove(item);
+            _context.SaveChanges();
+        }
+
+
     }
 }

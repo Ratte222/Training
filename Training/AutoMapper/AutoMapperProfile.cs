@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.DTO;
+using BLL.DTO.OrderLine;
 using BLL.DTO.Product;
 using DAL.Model;
 using System;
@@ -17,6 +18,10 @@ namespace Training.AutoMapper
             CreateMap<Product, ProductDTO>();
             CreateMap<ProductDTO, Product>();
             CreateMap<Product, ProductFbDTO>();
+            DateTime dateTimeRequest = DateTime.Now.AddDays(-1);//addDays(-1) added for check
+            CreateMap<OrderLine, OrderLineDTO>()
+                .ForMember(dto => dto.Product, conf => conf.MapFrom(ol => ol.Product.Name))
+                .ForMember(dto => dto.DateTimeRequest, conf => conf.MapFrom(ol => dateTimeRequest));
         }
     }
 }

@@ -24,12 +24,14 @@ using System.Xml.Serialization;
 
 namespace BLL.Services
 {
-    public class ProductService : BaseService<Product>, IProductService
+    public class ProductService : IProductService
     {
         private readonly AppSettings _appSettings;
-        public ProductService(AppDBContext appDBContext, IOptions<AppSettings> options): base(appDBContext)
+        private readonly AppDBContext _context;
+        public ProductService(AppDBContext appDBContext, IOptions<AppSettings> options)
         {
             _appSettings = options.Value;
+            _context = appDBContext;
         }
 
         public virtual Product Get(long id)

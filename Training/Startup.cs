@@ -71,6 +71,7 @@ namespace Training
             services.AddScoped<IPythonLibService, PythonLibService>();
             services.AddScoped<IWebParseService, WebParseService>();
             services.AddScoped<IComputerVision, ComputerVision>();
+            services.AddScoped<IOrderLineService, OrderLineService>();
 
             #region FluentEmail_Smtp
             SmtpClient smtp = new SmtpClient
@@ -105,6 +106,7 @@ namespace Training
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDBContext applicationContext)
         {
             applicationContext.Database.Migrate();
+            DbInitializer.Initialize(applicationContext);
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
