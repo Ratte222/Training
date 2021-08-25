@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace Training
 {
     public class Startup
     {
+        readonly string myAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             //var builder = new ConfigurationBuilder()
@@ -44,6 +46,18 @@ namespace Training
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //https://developer.mozilla.org/ru/docs/Web/HTTP/CORS
+            //https://docs.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-3.1
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: myAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("https://localhost:5001")
+                                      .WithMethods("PUT", "PATÑH");
+                                      //.WithHeaders("x-custom-header");
+                                  });
+            });
             string connection = Configuration.GetConnectionString("DefaultConnection");
             //services.AddMvcCore().AddApiExplorer().AddAuthorization();
             services.AddControllers();
@@ -120,7 +134,7 @@ namespace Training
             app.UseHttpsRedirection();
             app.UseMiddleware<ExeptionMeddleware>();
             app.UseRouting();
-
+            app.UseCors(myAllowSpecificOrigins);
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
